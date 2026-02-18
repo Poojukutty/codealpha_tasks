@@ -1,0 +1,109 @@
+import java.util.*;
+
+// Stock Class
+class Stock {
+    String name;
+    double price;
+
+    Stock(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+}
+
+// User Class
+class User {
+    double balance = 10000;
+    HashMap<String, Integer> portfolio = new HashMap<>();
+
+    void buyStock(Stock stock, int qty) {
+        double cost = stock.price * qty;
+
+        if (cost > balance) {
+            System.out.println("Not enough balance!");
+        } else {
+            balance -= cost;
+            portfolio.put(stock.name,
+                    portfolio.getOrDefault(stock.name, 0) + qty);
+            System.out.println("Stock Bought!");
+        }
+    }
+
+    void sellStock(Stock stock, int qty) {
+        int owned = portfolio.getOrDefault(stock.name, 0);
+
+        if (owned < qty) {
+            System.out.println("Not enough shares!");
+        } else {
+            balance += stock.price * qty;
+            portfolio.put(stock.name, owned - qty);
+            System.out.println("Stock Sold!");
+        }
+    }
+
+    void showPortfolio() {
+        System.out.println("\nPortfolio:");
+        for (String s : portfolio.keySet()) {
+            System.out.println(s + " : " + portfolio.get(s) + " shares");
+        }
+        System.out.println("Balance: ₹" + balance);
+    }
+}
+
+// Main Class
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        // Market Stocks
+        Stock tcs = new Stock("TCS", 3500);
+        Stock infosys = new Stock("INFY", 1500);
+
+        User user = new User();
+
+        while (true) {
+            System.out.println("\n1.View Stocks\n2.Buy\n3.Sell\n4.Portfolio\n5.Exit");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    System.out.println("TCS : ₹3500");
+                    System.out.println("INFY : ₹1500");
+                    break;
+
+                case 2:
+                    System.out.println("Enter stock (TCS/INFY): ");
+                    String buy = sc.next();
+                    System.out.println("Enter quantity:");
+                    int bqty = sc.nextInt();
+
+                    if (buy.equalsIgnoreCase("TCS"))
+                        user.buyStock(tcs, bqty);
+                    else
+                        user.buyStock(infosys, bqty);
+                    break;
+
+                case 3:
+                    System.out.println("Enter stock (TCS/INFY): ");
+                    String sell = sc.next();
+                    System.out.println("Enter quantity:");
+                    int sqty = sc.nextInt();
+
+                    if (sell.equalsIgnoreCase("TCS"))
+                        user.sellStock(tcs, sqty);
+                    else
+                        user.sellStock(infosys, sqty);
+                    break;
+
+                case 4:
+                    user.showPortfolio();
+                    break;
+
+                case 5:
+                    System.exit(0);
+            }
+        }
+    }
+}
