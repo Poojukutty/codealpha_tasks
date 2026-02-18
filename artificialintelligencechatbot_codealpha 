@@ -1,0 +1,61 @@
+import java.util.Scanner;
+
+// Chatbot Class
+class ChatBot {
+
+    public String getResponse(String input) {
+
+        input = input.toLowerCase(); // basic NLP
+
+        if (input.contains("hello") || input.contains("hi")) {
+            return "Hello! How can I help you?";
+        }
+
+        else if (input.contains("your name")) {
+            return "I am a Java AI Chatbot.";
+        }
+
+        else if (input.contains("course") || input.contains("java")) {
+            return "Java is a powerful object-oriented programming language.";
+        }
+
+        else if (input.contains("college")) {
+            return "KCG College of Technology is a great place to learn!";
+        }
+
+        else if (input.contains("bye")) {
+            return "Goodbye! Have a nice day!";
+        }
+
+        else {
+            return "Sorry, I don't understand. Can you rephrase?";
+        }
+    }
+}
+
+// Main Class
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        ChatBot bot = new ChatBot();
+
+        System.out.println("AI Chatbot Started! (type 'bye' to exit)");
+
+        while (true) {
+
+            System.out.print("You: ");
+            String userInput = sc.nextLine();
+
+            String response = bot.getResponse(userInput);
+            System.out.println("Bot: " + response);
+
+            if (userInput.equalsIgnoreCase("bye")) {
+                break;
+            }
+        }
+
+        sc.close();
+    }
+}
